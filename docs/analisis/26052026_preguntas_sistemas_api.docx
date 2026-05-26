@@ -1,0 +1,282 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <title>Converted Document</title>
+          <style>
+            body { font-family: 'Times New Roman', serif; line-height: 1.6; margin: 40px; }
+            h1, h2, h3, h4, h5, h6 { color: #333; margin-top: 24px; margin-bottom: 16px; }
+            p { margin-bottom: 16px; }
+            code { background-color: #f6f8fa; padding: 2px 4px; border-radius: 3px; }
+            pre { background-color: #f6f8fa; padding: 16px; border-radius: 6px; overflow-x: auto; }
+            blockquote { border-left: 4px solid #dfe2e5; padding-left: 16px; margin-left: 0; }
+            table { border-collapse: collapse; width: 100%; }
+            th, td { border: 1px solid #dfe2e5; padding: 8px 12px; text-align: left; }
+            th { background-color: #f6f8fa; }
+          </style>
+        </head>
+        <body><h1 id="preguntaspreliminaresparasistemascontratoycriteriosgeneralesdeapi">Preguntas preliminares para Sistemas — Contrato y criterios generales de API</h1>
+<h2 id="objetivo">Objetivo</h2>
+<p>Consolidar criterios técnicos y funcionales generales antes de continuar el análisis masivo de endpoints de la API.</p>
+<p>La finalidad de este documento es evitar asumir comportamientos, políticas de exposición o criterios arquitectónicos que puedan afectar la documentación posterior.</p>
+<hr />
+<h1 id="contexto">Contexto</h1>
+<p>Durante el análisis preliminar del bloque <code>/edificios</code> se detectaron:</p>
+<ul>
+<li>diferencias entre <code>id</code> interno y <code>cui</code>;</li>
+<li>filtros funcionales no completamente documentados;</li>
+<li>joins implícitos;</li>
+<li>exposición de campos técnicos;</li>
+<li>ambigüedades documentales en Swagger.</li>
+</ul>
+<p>Por este motivo se considera conveniente validar criterios generales antes de continuar con el análisis del resto de los recursos.</p>
+<hr />
+<h1 id="preguntasgenerales">Preguntas generales</h1>
+<h2 id="identificadores">Identificadores</h2>
+<table>
+<thead>
+<tr>
+<th>Tema</th>
+<th>Pregunta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code> interno vs <code>cui</code></td>
+<td>¿Cuál debe considerarse identificador principal a nivel API?</td>
+</tr>
+<tr>
+<td>Path params</td>
+<td>¿<code>/edificios/{id}</code> debe documentarse explícitamente como ID interno?</td>
+</tr>
+<tr>
+<td>CUI</td>
+<td>¿Conviene disponer de endpoint específico por CUI?</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="contratodeendpoints">Contrato de endpoints</h1>
+<table>
+<thead>
+<tr>
+<th>Tema</th>
+<th>Pregunta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Endpoint único</td>
+<td>¿Se espera que un mismo endpoint devuelva respuestas distintas según rol?</td>
+</tr>
+<tr>
+<td>Endpoints separados</td>
+<td>¿Prefieren separar endpoints públicos, internos y administrativos?</td>
+</tr>
+<tr>
+<td>Contrato funcional</td>
+<td>¿La API apunta a exposición cruda de tablas o a contratos funcionales?</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="exposicindedatos">Exposición de datos</h1>
+<table>
+<thead>
+<tr>
+<th>Tema</th>
+<th>Pregunta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Campos técnicos</td>
+<td>¿Qué campos internos deberían ocultarse según perfil?</td>
+</tr>
+<tr>
+<td>Auditoría</td>
+<td>¿<code>createdAt</code> y <code>updatedAt</code> deben exponerse?</td>
+</tr>
+<tr>
+<td>Soft delete</td>
+<td>¿El campo <code>borrado</code> debe ser visible?</td>
+</tr>
+<tr>
+<td>Relaciones</td>
+<td>¿Qué joins consideran válidos institucionalmente?</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="swaggerydocumentacin">Swagger y documentación</h1>
+<table>
+<thead>
+<tr>
+<th>Tema</th>
+<th>Pregunta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Swagger</td>
+<td>¿Swagger es considerado documentación oficial?</td>
+</tr>
+<tr>
+<td>Mantenimiento</td>
+<td>¿Quién mantiene Swagger/documentación?</td>
+</tr>
+<tr>
+<td>Filtros</td>
+<td>¿Todos los filtros soportados están documentados?</td>
+</tr>
+<tr>
+<td>Descripciones</td>
+<td>¿Existe revisión funcional de textos y parámetros?</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="permisosyautenticacin">Permisos y autenticación</h1>
+<table>
+<thead>
+<tr>
+<th>Tema</th>
+<th>Pregunta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Roles</td>
+<td>¿Los roles actuales son definitivos?</td>
+</tr>
+<tr>
+<td>Filtrado por rol</td>
+<td>¿La API debería ocultar campos según perfil?</td>
+</tr>
+<tr>
+<td>Endpoints públicos</td>
+<td>¿Qué recursos se espera publicar sin token?</td>
+</tr>
+<tr>
+<td>Bearer/JWT</td>
+<td>¿Existe expiración y refresh token definidos?</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="escriturayborrado">Escritura y borrado</h1>
+<table>
+<thead>
+<tr>
+<th>Tema</th>
+<th>Pregunta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td>¿Los endpoints de escritura ya impactan sobre base productiva?</td>
+</tr>
+<tr>
+<td><code>PATCH</code></td>
+<td>¿Existen auditorías de modificaciones?</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td>¿El borrado es lógico o físico?</td>
+</tr>
+<tr>
+<td>Recuperación</td>
+<td>¿Puede revertirse un borrado?</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="ambientes">Ambientes</h1>
+<table>
+<thead>
+<tr>
+<th>Tema</th>
+<th>Pregunta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ranie-test</code></td>
+<td>¿Corresponde efectivamente a testing?</td>
+</tr>
+<tr>
+<td>Bases</td>
+<td>¿Existen ambientes separados?</td>
+</tr>
+<tr>
+<td>Datos de prueba</td>
+<td>¿Hay registros descartables para testing?</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="paginacinyperformance">Paginación y performance</h1>
+<table>
+<thead>
+<tr>
+<th>Tema</th>
+<th>Pregunta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Paginación</td>
+<td>¿Será obligatoria en todos los listados?</td>
+</tr>
+<tr>
+<td>Límites</td>
+<td>¿Existen límites máximos de resultados?</td>
+</tr>
+<tr>
+<td>Performance</td>
+<td>¿Hay criterios de optimización definidos?</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="joinsyconsumofuncional">Joins y consumo funcional</h1>
+<table>
+<thead>
+<tr>
+<th>Tema</th>
+<th>Pregunta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Joins</td>
+<td>¿Qué relaciones deberían resolverse backend?</td>
+</tr>
+<tr>
+<td>Frontend</td>
+<td>¿Qué relaciones esperan resolver desde frontend?</td>
+</tr>
+<tr>
+<td>GIS</td>
+<td>¿La serialización geográfica es parte oficial del contrato API?</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="objetivoposterior">Objetivo posterior</h1>
+<p>Una vez alineados estos criterios, continuar con:</p>
+<ul>
+<li>análisis detallado de endpoints;</li>
+<li>documentación funcional;</li>
+<li>clasificación de permisos;</li>
+<li>propuestas de mejora;</li>
+<li>definición de contratos consistentes.</li>
+</ul>
+<hr />
+<h1 id="estadodeldocumento">Estado del documento</h1>
+<p>Documento preliminar de alineación técnica.</p>
+<p>No representa decisiones definitivas.</p></body>
+        </html>
+      
