@@ -36,10 +36,44 @@ Actualmente el repositorio documenta y analiza:
 
 ## Estructura del repositorio
 
-```text
-docs/
-├── analisis/
-├── endpoints/
-├── propuestas/
-├── decisiones/
-└── roadmap/
+    docs/
+    ├── analisis/
+    ├── endpoints/
+    ├── propuestas/
+    ├── decisiones/
+    └── roadmap/
+
+## Criterios de organización
+
+| Carpeta | Uso previsto |
+|---|---|
+| `docs/analisis/` | Observaciones técnicas, revisiones preliminares y análisis funcionales. |
+| `docs/endpoints/` | Documentación funcional por recurso o grupo de endpoints. |
+| `docs/propuestas/` | Propuestas concretas de mejora o evolución. |
+| `docs/decisiones/` | Criterios adoptados como referencia del proyecto. |
+| `docs/roadmap/` | Planificación de evolución del trabajo. |
+
+## Documentos iniciales
+
+| Documento | Descripción |
+|---|---|
+| `docs/analisis/26052026_permisos.md` | Observaciones iniciales sobre roles, permisos y endpoints de usuarios. |
+| `docs/analisis/26052026_estructura_de_respuesta.md` | Observaciones sobre exposición de campos y estructura de respuestas JSON. |
+| `docs/analisis/26052026_auth_endpoints.md` | Análisis preliminar del bloque de autenticación. |
+| `docs/analisis/26052026_guia_postman.md` | Guía básica para replicar pruebas de API con Postman. |
+
+## Criterios generales de análisis
+
+Los documentos del repositorio deben distinguir entre:
+
+- comportamiento actual observado;
+- problemas o riesgos detectados;
+- comportamiento esperado;
+- propuestas de mejora;
+- decisiones adoptadas.
+
+## Estado del repositorio
+
+Repositorio en construcción.
+
+La documentación incluida es preliminar y se irá ampliando a medida que se analicen nuevos endpoints y se registren resultados de pruebas.
