@@ -2,23 +2,55 @@
 
 ## Objetivo
 
-Consolidar criterios técnicos y funcionales generales antes de continuar el análisis masivo de endpoints de la API.
+Consolidar criterios técnicos y funcionales generales antes de continuar el análisis masivo de endpoints de la API RANIE.
 
 La finalidad de este documento es evitar asumir comportamientos, políticas de exposición o criterios arquitectónicos que puedan afectar la documentación posterior.
 
 ---
 
-# Contexto
+# Alcance
 
-Durante el análisis preliminar del bloque `/edificios` se detectaron:
+Este documento:
+
+- NO propone cambios definitivos;
+- NO representa decisiones acordadas;
+- NO implica observaciones críticas sobre la implementación actual.
+
+Su objetivo es alinear criterios institucionales y técnicos antes de documentar masivamente los recursos de la API.
+
+---
+
+# Lineamientos funcionales definidos por el área solicitante
+
+El área solicitante establece preliminarmente los siguientes criterios funcionales:
+
+| Tema | Lineamiento |
+|---|---|
+| Usuarios administrativos | Deben existir usuarios con capacidad de habilitar usuarios y permisos |
+| Analistas | Deben existir usuarios autenticados con acceso a campos útiles definidos funcionalmente |
+| Usuarios públicos | Deben existir endpoints o respuestas públicas sin token con información básica |
+| Consumo | La API será utilizada inicialmente para consumo crudo |
+| Aplicaciones | No se prevé inicialmente desarrollo de aplicaciones consumidoras oficiales |
+| Documentación | La documentación debe ser pública y accesible |
+
+Estos lineamientos representan necesidades funcionales preliminares del área solicitante y requieren validación técnica y arquitectónica por parte de Sistemas.
+
+---
+
+# Observaciones preliminares detectadas
+
+Durante el análisis inicial del bloque `/edificios` se detectaron:
 
 - diferencias entre `id` interno y `cui`;
-- filtros funcionales no completamente documentados;
-- joins implícitos;
+- coexistencia de path params y filtros query;
+- joins implícitos en respuestas;
 - exposición de campos técnicos;
-- ambigüedades documentales en Swagger.
+- filtros funcionales parcialmente documentados;
+- diferencias entre Swagger y comportamiento real observado;
+- dependencia obligatoria de Bearer Token;
+- respuestas condicionadas por autenticación.
 
-Por este motivo se considera conveniente validar criterios generales antes de continuar con el análisis del resto de los recursos.
+Estas observaciones motivan la necesidad de validar criterios generales antes de continuar con el relevamiento completo.
 
 ---
 
@@ -31,6 +63,7 @@ Por este motivo se considera conveniente validar criterios generales antes de co
 | `id` interno vs `cui` | ¿Cuál debe considerarse identificador principal a nivel API? |
 | Path params | ¿`/edificios/{id}` debe documentarse explícitamente como ID interno? |
 | CUI | ¿Conviene disponer de endpoint específico por CUI? |
+| Identificadores públicos | ¿Qué identificadores son considerados seguros para exposición pública? |
 
 ---
 
@@ -41,6 +74,8 @@ Por este motivo se considera conveniente validar criterios generales antes de co
 | Endpoint único | ¿Se espera que un mismo endpoint devuelva respuestas distintas según rol? |
 | Endpoints separados | ¿Prefieren separar endpoints públicos, internos y administrativos? |
 | Contrato funcional | ¿La API apunta a exposición cruda de tablas o a contratos funcionales? |
+| Versionado | ¿Existe estrategia de versionado de API? |
+| Compatibilidad | ¿Hay compromiso de backward compatibility? |
 
 ---
 
@@ -52,6 +87,9 @@ Por este motivo se considera conveniente validar criterios generales antes de co
 | Auditoría | ¿`createdAt` y `updatedAt` deben exponerse? |
 | Soft delete | ¿El campo `borrado` debe ser visible? |
 | Relaciones | ¿Qué joins consideran válidos institucionalmente? |
+| Geometrías | ¿La exposición de `geom` está prevista para consumo GIS? |
+| Coordenadas | ¿Debe exponerse simultáneamente GKBA y WGS84? |
+| Campos públicos | ¿Cómo se diferencian los campos básicos públicos de los campos útiles para analistas? |
 
 ---
 
@@ -63,6 +101,9 @@ Por este motivo se considera conveniente validar criterios generales antes de co
 | Mantenimiento | ¿Quién mantiene Swagger/documentación? |
 | Filtros | ¿Todos los filtros soportados están documentados? |
 | Descripciones | ¿Existe revisión funcional de textos y parámetros? |
+| Seguridad | ¿Swagger debería indicar explícitamente autenticación requerida? |
+| Ejemplos | ¿Existe criterio institucional para ejemplos de request/response? |
+| Publicación | ¿La documentación será pública para terceros consumidores? |
 
 ---
 
@@ -70,10 +111,13 @@ Por este motivo se considera conveniente validar criterios generales antes de co
 
 | Tema | Pregunta |
 |---|---|
-| Roles | ¿Los roles actuales son definitivos? |
+| Roles | ¿Los roles funcionales ya están definidos institucionalmente? |
 | Filtrado por rol | ¿La API debería ocultar campos según perfil? |
 | Endpoints públicos | ¿Qué recursos se espera publicar sin token? |
 | Bearer/JWT | ¿Existe expiración y refresh token definidos? |
+| Permisos | ¿Los permisos son endpoint-based o acción-based? |
+| Testing | ¿Existen usuarios específicos para QA/documentación? |
+| Superadmin | ¿Qué capacidades concretas tendrá el perfil administrador total? |
 
 ---
 
@@ -85,6 +129,7 @@ Por este motivo se considera conveniente validar criterios generales antes de co
 | `PATCH` | ¿Existen auditorías de modificaciones? |
 | `DELETE` | ¿El borrado es lógico o físico? |
 | Recuperación | ¿Puede revertirse un borrado? |
+| Validaciones | ¿Las validaciones están centralizadas o endpoint por endpoint? |
 
 ---
 
@@ -95,6 +140,8 @@ Por este motivo se considera conveniente validar criterios generales antes de co
 | `ranie-test` | ¿Corresponde efectivamente a testing? |
 | Bases | ¿Existen ambientes separados? |
 | Datos de prueba | ¿Hay registros descartables para testing? |
+| Replicación | ¿Testing replica productivo? |
+| Frecuencia | ¿Cada cuánto se sincronizan ambientes? |
 
 ---
 
@@ -105,16 +152,8 @@ Por este motivo se considera conveniente validar criterios generales antes de co
 | Paginación | ¿Será obligatoria en todos los listados? |
 | Límites | ¿Existen límites máximos de resultados? |
 | Performance | ¿Hay criterios de optimización definidos? |
-
----
-
-# Joins y consumo funcional
-
-| Tema | Pregunta |
-|---|---|
-| Joins | ¿Qué relaciones deberían resolverse backend? |
-| Frontend | ¿Qué relaciones esperan resolver desde frontend? |
-| GIS | ¿La serialización geográfica es parte oficial del contrato API? |
+| Geometrías | ¿Existen límites especiales para respuestas geográficas? |
+| Joins | ¿Hay restricciones institucionales sobre joins pesados? |
 
 ---
 
@@ -126,7 +165,9 @@ Una vez alineados estos criterios, continuar con:
 - documentación funcional;
 - clasificación de permisos;
 - propuestas de mejora;
-- definición de contratos consistentes.
+- definición de contratos consistentes;
+- normalización documental de Swagger;
+- definición de criterios de exposición pública.
 
 ---
 
